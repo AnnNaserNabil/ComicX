@@ -22,7 +22,7 @@ class VideoCrew:
 
     @llm
     def llm_model(self):
-        """Get Gemini LLM for video tasks"""
+        """Get LLM for video tasks"""
         return LLMFactory.get_llm(task_type="general", temperature=0.8)
 
     @agent

@@ -22,7 +22,7 @@ class SynthesisCrew:
 
     @llm
     def llm_model(self):
-        """Get Gemini LLM for synthesis tasks"""
+        """Get LLM for synthesis tasks"""
         return LLMFactory.get_llm(task_type="general", temperature=0.0)
 
     @agent

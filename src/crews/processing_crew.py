@@ -22,7 +22,7 @@ class ProcessingCrew:
 
     @llm
     def llm_model(self):
-        """Get Gemini LLM for processing tasks"""
+        """Get LLM for processing tasks"""
         return LLMFactory.get_llm(task_type="general", temperature=0.0)
 
     @agent

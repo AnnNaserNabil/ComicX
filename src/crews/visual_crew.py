@@ -23,7 +23,7 @@ class VisualCrew:
 
     @llm
     def llm_model(self):
-        """Get Gemini LLM for visual tasks"""
+        """Get LLM for visual tasks"""
         return LLMFactory.get_llm(task_type="general", temperature=0.8)
 
     @agent

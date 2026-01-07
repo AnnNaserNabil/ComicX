@@ -5,7 +5,6 @@ Multi-LLM utility for selecting appropriate language models for different tasks.
 import logging
 from typing import Any, Dict, Optional
 
-from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_openai import ChatOpenAI
 
 from src.models.config import get_settings
@@ -36,28 +35,8 @@ class LLMFactory:
         Returns:
             LLM instance
         """
-        # Determine which LLM to use based on task type
-        llm_choice = settings.general_llm  # default to general setting
-        
-        if task_type == "story_generation":
-            llm_choice = settings.story_generation_llm
-        elif task_type == "script_writing":
-            llm_choice = settings.script_writing_llm
-        elif task_type == "captioning":
-            llm_choice = settings.captioning_llm
-        elif task_type == "dialogue":
-            llm_choice = settings.dialogue_llm
-        elif task_type == "translation":
-            llm_choice = settings.translation_llm
-        
-        # Create appropriate LLM instance
-        if llm_choice == "openai" and settings.openai_api_key:
-            return LLMFactory._create_openai_llm(temperature, max_tokens, **kwargs)
-        elif llm_choice == "openrouter" and settings.openrouter_api_key:
-            return LLMFactory._create_openrouter_llm(temperature, max_tokens, **kwargs)
-        else:
-            # Default to Gemini (primary LLM)
-            return LLMFactory._create_gemini_llm(temperature, max_tokens, **kwargs)
+        # All tasks now use OpenRouter
+        return LLMFactory._create_openrouter_llm(temperature, max_tokens, **kwargs)
     
     @staticmethod
     def _create_openrouter_llm(
@@ -67,53 +46,16 @@ class LLMFactory:
     ) -> ChatOpenAI:
         """Create OpenRouter LLM instance using ChatOpenAI"""
         if not settings.openrouter_api_key:
-            logger.warning("OpenRouter API key not configured, falling back to Gemini")
-            return LLMFactory._create_gemini_llm(temperature, max_tokens, **kwargs)
+            raise ValueError("OpenRouter API key not configured")
         
         model = settings.openrouter_model
-        if not model.startswith("openrouter/"):
-            model = f"openrouter/{model}"
             
         return ChatOpenAI(
             model=model,
             api_key=settings.openrouter_api_key,
             base_url=settings.openrouter_base_url,
-            temperature=temperature or settings.gemini_temperature,
-            max_tokens=max_tokens or settings.gemini_max_tokens,
-            **kwargs
-        )
-    
-    @staticmethod
-    def _create_gemini_llm(
-        temperature: Optional[float] = None,
-        max_tokens: Optional[int] = None,
-        **kwargs
-    ) -> ChatGoogleGenerativeAI:
-        """Create Google Gemini LLM instance"""
-        return ChatGoogleGenerativeAI(
-            model=settings.gemini_model,
-            google_api_key=settings.google_api_key,
-            temperature=temperature or settings.gemini_temperature,
-            max_output_tokens=max_tokens or settings.gemini_max_tokens,
-            **kwargs
-        )
-    
-    @staticmethod
-    def _create_openai_llm(
-        temperature: Optional[float] = None,
-        max_tokens: Optional[int] = None,
-        **kwargs
-    ) -> ChatOpenAI:
-        """Create OpenAI LLM instance (if API key is available)"""
-        if not settings.openai_api_key:
-            logger.warning("OpenAI API key not configured, falling back to Gemini")
-            return LLMFactory._create_gemini_llm(temperature, max_tokens, **kwargs)
-        
-        return ChatOpenAI(
-            model=settings.openai_model,
-            api_key=settings.openai_api_key,
-            temperature=temperature or settings.openai_temperature,
-            max_tokens=max_tokens or settings.openai_max_tokens,
+            temperature=temperature or settings.llm_temperature,
+            max_tokens=max_tokens or settings.llm_max_tokens,
             **kwargs
         )
     

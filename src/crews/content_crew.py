@@ -21,12 +21,12 @@ class ContentCrew:
 
     @llm
     def story_llm(self):
-        """LLM for story generation (Gemini for creativity)"""
+        """LLM for story generation (creative)"""
         return LLMFactory.get_story_llm()
     
     @llm
     def script_llm(self):
-        """LLM for script writing (OpenAI for structure)"""
+        """LLM for script writing (structured)"""
         return LLMFactory.get_script_llm()
     
     @llm
@@ -46,7 +46,7 @@ class ContentCrew:
     def story_writer(self) -> Agent:
         return Agent(
             config=self.agents_config["story_writer"],
-            llm=self.story_llm(),  # Use Gemini for creative story generation
+            llm=self.story_llm(),  # Use creative LLM for story generation
             verbose=True
         )
 
@@ -54,7 +54,7 @@ class ContentCrew:
     def script_writer(self) -> Agent:
         return Agent(
             config=self.agents_config["script_writer"],
-            llm=self.script_llm(),  # Use OpenAI for structured script writing
+            llm=self.script_llm(),  # Use structured LLM for script writing
             verbose=True
         )
 

@@ -20,30 +20,16 @@ class Settings(BaseSettings):
         extra="ignore"
     )
     
-    # Google Gemini Configuration (Primary LLM)
-    google_api_key: str = Field(..., description="Google API key for Gemini")
-    gemini_model: str = Field(default="gemini-2.0-flash-exp", description="Gemini model")
-    gemini_temperature: float = Field(default=0.8, ge=0, le=2)
-    gemini_max_tokens: int = Field(default=8000, ge=1)
-    
-    # OpenAI Configuration (Optional)
-    openai_api_key: Optional[str] = Field(None, description="OpenAI API key (optional)")
-    openai_model: str = Field(default="gpt-4o", description="OpenAI model to use")
-    openai_temperature: float = Field(default=0.7, ge=0, le=2)
-    openai_max_tokens: int = Field(default=16000, ge=1)
-    
     # OpenRouter Configuration
     openrouter_api_key: Optional[str] = Field(None, description="OpenRouter API key")
-    openrouter_model: str = Field(default="google/gemini-2.0-flash-exp:free", description="OpenRouter model")
+    openrouter_model: str = Field(default="xiaomi/mimo-v2-flash:free", description="OpenRouter model")
     openrouter_base_url: str = Field(default="https://openrouter.ai/api/v1", description="OpenRouter API base URL")
     
-    # LLM Selection for Different Tasks (all OpenRouter by default)
-    story_generation_llm: str = Field(default="openrouter", description="LLM for story generation")
-    script_writing_llm: str = Field(default="openrouter", description="LLM for script writing")
-    captioning_llm: str = Field(default="openrouter", description="LLM for captioning")
-    dialogue_llm: str = Field(default="openrouter", description="LLM for dialogue")
-    translation_llm: str = Field(default="openrouter", description="LLM for translation")
-    general_llm: str = Field(default="openrouter", description="General purpose LLM")
+    # LLM Settings
+    llm_temperature: float = Field(default=0.8, ge=0, le=2)
+    llm_max_tokens: int = Field(default=8000, ge=1)
+    
+    # ModelsLab Configuration
     
     # ModelsLab Configuration
     modelslab_api_key: str = Field(..., description="ModelsLab API key")

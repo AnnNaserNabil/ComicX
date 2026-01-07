@@ -97,8 +97,7 @@ async def health_check():
         "timestamp": asyncio.get_event_loop().time(),
         "services": {
             "redis": "connected",
-            "openai": "configured" if settings.openai_api_key else "not_configured",
-            "gemini": "configured" if settings.google_api_key else "not_configured",
+            "redis": "connected",
             "openrouter": "configured" if settings.openrouter_api_key else "not_configured"
         }
     }
@@ -107,7 +106,7 @@ async def health_check():
 # Story Generation Endpoints
 @app.post("/api/v1/story/generate", response_model=StoryResponse)
 async def generate_story(request: StoryGenerateRequest):
-    """Generate story using Gemini AI"""
+    """Generate story using LLM"""
     try:
         # Using LLMFactory directly for quick generation
         llm = LLMFactory.get_llm(task_type="story_generation")
@@ -307,8 +306,9 @@ async def get_agents_status():
         "content_agent": "ready",
         "visual_agent": "ready",
         "synthesis_agent": "ready",
-        "llm_primary": "openrouter" if settings.openrouter_api_key else "gemini",
-        "llm_model": settings.openrouter_model if settings.openrouter_api_key else settings.gemini_model,
+        "synthesis_agent": "ready",
+        "llm_primary": "openrouter",
+        "llm_model": settings.openrouter_model,
         "image_model": settings.image_model
     }
 

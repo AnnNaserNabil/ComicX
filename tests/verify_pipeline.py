@@ -31,8 +31,8 @@ def verify_pipeline():
     settings = get_settings()
     
     # Check for required API keys
-    if not settings.google_api_key and not settings.openrouter_api_key:
-        logger.error("Neither GOOGLE_API_KEY nor OPENROUTER_API_KEY found in .env")
+    if not settings.openrouter_api_key:
+        logger.error("OPENROUTER_API_KEY not found in .env")
         return False
     
     if not settings.modelslab_api_key:

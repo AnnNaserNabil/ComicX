@@ -532,14 +532,10 @@ def settings_tab():
     
     st.markdown("### 🔑 API Configuration")
     
-    with st.expander("OpenRouter API (Primary)"):
+    with st.expander("OpenRouter API"):
         openrouter_key = st.text_input("OpenRouter API Key", type="password", value=settings.openrouter_api_key)
         openrouter_model = st.text_input("OpenRouter Model", value=settings.openrouter_model)
         openrouter_url = st.text_input("OpenRouter Base URL", value=settings.openrouter_base_url)
-
-    with st.expander("Google Gemini API (Fallback)"):
-        gemini_key = st.text_input("Gemini API Key", type="password", value=settings.google_api_key)
-        gemini_model = st.selectbox("Gemini Model", ["gemini-2.0-flash-exp", "gemini-1.5-pro", "gemini-1.5-flash"])
     
     with st.expander("ModelsLab API"):
         modelslab_key = st.text_input("ModelsLab API Key", type="password", value=settings.modelslab_api_key)
@@ -561,7 +557,7 @@ def about_tab():
     st.markdown("""
     ### 🎨 Features
     
-    - **AI-Powered Story Generation** using OpenRouter (Gemini 2.0 Flash)
+    - **AI-Powered Story Generation** using OpenRouter
     - **Professional Artwork** with ModelsLab's advanced models
     - **Multiple Art Styles** (cartoon, manga, realistic, and more)
     - **Various Output Formats** (PDF, CBZ, Web, Video)
@@ -569,7 +565,7 @@ def about_tab():
     
     ### 🤖 Technology Stack
     
-    - **LLM**: OpenRouter (Gemini 2.0 Flash)
+    - **LLM**: OpenRouter
     - **Image Generation**: ModelsLab (Flux, Stable Diffusion)
     - **Video Generation**: ModelsLab CogVideoX
     - **Framework**: CrewAI Multi-Agent System
