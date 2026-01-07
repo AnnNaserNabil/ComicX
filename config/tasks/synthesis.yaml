@@ -5,9 +5,9 @@ synthesis:
     Title: {title}
     Author: {author}
     
-    <pages>
-    {page_layouts}
-    </pages>
+    <panels>
+    {panel_artworks}
+    </panels>
     
     Create:
     - Cover page with title and artwork

@@ -20,7 +20,7 @@ from src.crews.processing_crew import ProcessingCrew
 from src.crews.synthesis_crew import SynthesisCrew
 from src.crews.visual_crew import VisualCrew
 from src.models.config import get_settings
-from src.models.schemas import ComicBook, GenerationStatus
+from src.models.schemas import ComicBook, GenerationStatus, ComicScript
 
 logger = logging.getLogger(__name__)
 settings = get_settings()
@@ -99,7 +99,13 @@ class ComicBookGenerator:
         if settings.agentops_api_key:
             agentops.end_session("Success")
 
-        comic_script = content_result.pydantic
+        if content_result.pydantic:
+            comic_script = content_result.pydantic
+        elif content_result.json_dict:
+            comic_script = ComicScript(**content_result.json_dict)
+        else:
+            raise ValueError("Content generation failed: No structured output received")
+
         logger.info(f"Script created: {comic_script.total_panels} panels")
 
         # Stage 3: Generate visuals (parallel processing for panels)
@@ -192,16 +198,69 @@ class ComicBookGenerator:
         if settings.agentops_api_key:
             agentops.end_session("Success")
 
-        # Continue with visual generation and synthesis
-        # (Similar to generate_from_pdf)
-        # ... (implementation similar to above)
+        if content_result.pydantic:
+            comic_script = content_result.pydantic
+        elif content_result.json_dict:
+            comic_script = ComicScript(**content_result.json_dict)
+        else:
+            raise ValueError("Content generation failed: No structured output received")
 
-        return ComicBook(
-            title=title,
-            pages=[],
-            total_pages=0,
-            format="pdf",
-        )
+        logger.info(f"Script created: {comic_script.total_panels} panels")
+
+        # Stage 3: Generate visuals (parallel processing for panels)
+        logger.info("Stage 3: Generating visuals...")
+        if settings.agentops_api_key:
+            agentops.start_session(tags=["visual", "generation"])
+
+        # Create inputs for each panel
+        panel_inputs = [
+            {
+                "panel_number": panel.panel_number,
+                "page_number": panel.page_number,
+                "description": panel.description,
+                "mood": panel.mood,
+                "camera_angle": panel.camera_angle,
+                "art_style": kwargs.get("art_style", "cartoon"),
+                "color_palette": comic_script.color_palette,
+                "characters": [c.name for c in comic_script.characters]
+                if hasattr(comic_script, "characters")
+                else [],
+                "story_summary": getattr(comic_script, "summary", ""),
+            }
+            for panel in comic_script.panels
+        ]
+
+        # Process panels (in batches to avoid overwhelming the API)
+        panel_results = self.visual_crew.crew().kickoff_for_each(inputs=panel_inputs)
+
+        if settings.agentops_api_key:
+            agentops.end_session("Success")
+
+        logger.info(f"Generated {len(panel_results)} panel artworks")
+
+        # Stage 4: Synthesize final comic
+        logger.info("Stage 4: Synthesizing final comic...")
+        if settings.agentops_api_key:
+            agentops.start_session(tags=["synthesis", "export"])
+
+        synthesis_inputs = {
+            "title": comic_script.title,
+            "author": self.config.get("author", "AI Generated"),
+            "script": comic_script,
+            "panel_artworks": [r.pydantic for r in panel_results],
+            "output_formats": kwargs.get("output_formats", ["pdf"]),
+            "quality": self.config.get("quality", "high"),
+        }
+
+        final_result = self.synthesis_crew.crew().kickoff(inputs=synthesis_inputs)
+
+        if settings.agentops_api_key:
+            agentops.end_session("Success")
+
+        final_comic = final_result.pydantic
+        logger.info(f"Comic book generated successfully: {final_comic.title}")
+
+        return final_comic
 
     def get_status(self, job_id: str) -> GenerationStatus:
         """
