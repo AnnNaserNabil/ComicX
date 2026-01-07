@@ -1,0 +1,61 @@
+caption_generation:
+  description: >
+    Generate narrative captions for comic panels.
+    
+    <panel_description>
+    {panel_description}
+    </panel_description>
+    
+    <story_context>
+    {story_context}
+    </story_context>
+    
+    Panel Number: {panel_number}
+    Mood: {mood}
+    
+    Create a concise, impactful caption that:
+    - Sets the scene or establishes mood
+    - Provides necessary context
+    - Enhances the visual storytelling
+    - Is maximum 20 words
+    - Uses evocative language
+    - Fits the comic book style
+    
+    The caption should complement the visuals, not repeat what's obvious.
+  expected_output: >
+    A concise caption text (maximum 20 words) that enhances the panel.
+  agent: caption_writer
+
+dialogue_generation:
+  description: >
+    Generate natural dialogue for comic book characters.
+    
+    <scene_description>
+    {scene_description}
+    </scene_description>
+    
+    <characters>
+    {characters}
+    </characters>
+    
+    <story_context>
+    {story_context}
+    </story_context>
+    
+    Generate dialogue that:
+    - Sounds natural and character-appropriate
+    - Fits in speech bubbles (concise)
+    - Advances the scene or reveals character
+    - Uses distinct voices for each character
+    - Includes appropriate sound effects if needed
+    - Can include thought bubbles for internal monologue
+    
+    Format dialogue as:
+    - Speech bubbles: Character name and dialogue
+    - Thought bubbles: Character name and thoughts
+    - Sound effects: Onomatopoeia
+    
+    Keep each dialogue line under 25 words for readability.
+  expected_output: >
+    A PanelText object with caption, dialogue lines, sound effects, and thought bubbles.
+  agent: dialogue_writer

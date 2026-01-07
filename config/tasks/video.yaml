@@ -1,0 +1,53 @@
+video_generation:
+  description: >
+    Generate animated video clips from comic panels.
+    
+    <panel_data>
+    {panel_description}
+    </panel_data>
+    
+    Scene: {scene_number}
+    Duration: {duration} seconds
+    
+    Create an animated video that:
+    - Brings the static panel to life with motion
+    - Maintains the art style and mood
+    - Uses appropriate camera movements
+    - Creates smooth, cinematic animation
+    - Captures the key action or emotion
+    
+    Generate a detailed prompt for video generation that describes:
+    - The main action or movement
+    - Camera angles and movements
+    - Lighting and atmosphere
+    - Pacing and timing
+    
+    Use the video generation tool to create the animated clip.
+  expected_output: >
+    Video generation result with URL or request ID, along with metadata
+    about the generated clip.
+  agent: video_generator
+
+video_editing:
+  description: >
+    Edit and combine video clips into a cohesive sequence.
+    
+    <video_clips>
+    {video_clips}
+    </video_clips>
+    
+    Edit the clips to:
+    - Ensure smooth transitions between scenes
+    - Maintain consistent pacing
+    - Add any necessary effects or adjustments
+    - Create a cohesive narrative flow
+    - Optimize for the target format
+    
+    Provide:
+    - Edited clip information
+    - Transition recommendations
+    - Total sequence duration
+    - Quality assessment
+  expected_output: >
+    A VideoSequence object with all clips, durations, and metadata.
+  agent: video_editor

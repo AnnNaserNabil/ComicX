@@ -1,0 +1,85 @@
+synthesis:
+  description: >
+    Combine all comic pages into a complete comic book.
+    
+    Title: {title}
+    Author: {author}
+    
+    <pages>
+    {page_layouts}
+    </pages>
+    
+    Create:
+    - Cover page with title and artwork
+    - Credits page
+    - Table of contents (if needed)
+    - All story pages in correct order
+    - Back cover
+    
+    Ensure:
+    - Proper page ordering
+    - Consistent formatting throughout
+    - Professional presentation
+    - Appropriate file optimization
+  expected_output: >
+    A ComicBook object with all pages, metadata, file information,
+    and creation timestamp.
+  agent: synthesizer
+
+quality_assurance:
+  description: >
+    Review the complete comic book for quality and completeness.
+    
+    <comic_book>
+    {comic_book}
+    </comic_book>
+    
+    Check:
+    - All pages are present and in correct order
+    - Text is readable in all panels
+    - Images are high quality
+    - No missing or corrupted content
+    - File integrity
+    - Overall presentation quality
+    
+    Provide:
+    - Overall quality score (0-100)
+    - Completeness verification
+    - Readability score
+    - Image quality score
+    - List of any issues found
+    - Pass/fail determination
+    - Recommendations for improvement
+  expected_output: >
+    A QualityReport object with quality scores, issue list, pass/fail status,
+    and recommendations.
+  agent: quality_assurance
+
+export:
+  description: >
+    Export the comic book to requested formats.
+    
+    <comic_book>
+    {comic_book}
+    </comic_book>
+    
+    Output Formats: {output_formats}
+    Quality Level: {quality}
+    
+    Export to:
+    {output_formats}
+    
+    For each format:
+    - Optimize for intended use
+    - Maintain quality standards
+    - Include proper metadata
+    - Ensure file integrity
+    
+    Generate:
+    - PDF: High-quality print-ready or screen-optimized
+    - CBZ: Comic book archive format
+    - Web: HTML viewer with optimized images
+  expected_output: >
+    Export results for each requested format including file paths,
+    file sizes, and format-specific metadata.
+  agent: export_agent

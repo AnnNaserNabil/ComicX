@@ -1,0 +1,42 @@
+document_processing:
+  description: >
+    Process the input document and extract all relevant content.
+    
+    Source Type: {source_type}
+    Source Path: {source_path}
+    
+    Extract:
+    - All text content with proper formatting
+    - Any embedded images
+    - Document metadata (title, author, etc.)
+    - Document structure (chapters, sections)
+    - Language detection
+    
+    Ensure the content is clean, properly formatted, and ready for further processing.
+  expected_output: >
+    A ProcessedDocument object containing extracted text, images, metadata, structure information,
+    detected language, and word count.
+  agent: document_processor
+
+content_validation:
+  description: >
+    Validate the processed content for suitability in comic book generation.
+    
+    Processed Content: {processed_content}
+    
+    Validate:
+    - Content quality and completeness
+    - Appropriate length for comic adaptation
+    - Story structure and narrative flow
+    - Presence of visual storytelling elements
+    - Language appropriateness
+    
+    Provide:
+    - Quality score (0-100)
+    - List of any issues found
+    - Warnings and suggestions
+    - Estimated panel and page counts
+  expected_output: >
+    A ValidationResult object with validity status, quality score, issues, warnings,
+    suggestions, and estimates for panels and pages.
+  agent: content_validator

@@ -1,0 +1,96 @@
+illustration:
+  description: >
+    Generate artwork for a comic panel.
+    
+    Panel Number: {panel_number}
+    Page Number: {page_number}
+    
+    <scene_description>
+    {description}
+    </scene_description>
+    
+    <story_context>
+    {story_summary}
+    </story_context>
+    
+    Art Style: {art_style}
+    Mood: {mood}
+    Camera Angle: {camera_angle}
+    Color Palette: {color_palette}
+    Characters: {characters}
+    
+    Generate:
+    1. Create a detailed prompt for image generation (max 40 words)
+    2. Use the image generation tool to create the artwork
+    3. Ensure the image matches the art style and mood
+    4. Include all key visual elements from the description
+    5. Maintain character consistency with previous panels
+    
+    The artwork should be in {art_style} style and capture the mood of {mood}.
+  expected_output: >
+    A PanelArtwork object with the generation prompt, image URL, generation parameters,
+    style tags, and quality score.
+  agent: visual_artist
+
+style_check:
+  description: >
+    Analyze visual consistency across generated panels.
+    
+    <generated_panels>
+    {panel_artworks}
+    </generated_panels>
+    
+    <character_references>
+    {character_references}
+    </character_references>
+    
+    Analyze:
+    - Character appearance consistency across panels
+    - Color palette consistency
+    - Art style consistency
+    - Overall visual coherence
+    
+    Identify:
+    - Any inconsistencies in character designs
+    - Color palette deviations
+    - Style variations
+    - Quality issues
+    
+    Provide:
+    - Overall consistency score (0-100)
+    - Per-character consistency scores
+    - Detailed list of inconsistencies
+    - Recommendations for improvement
+  expected_output: >
+    A StyleAnalysis object with consistency scores, detected inconsistencies,
+    and recommendations for maintaining visual coherence.
+  agent: style_consistency
+
+layout_design:
+  description: >
+    Create professional comic book page layout.
+    
+    Page Number: {page_number}
+    Layout Style: {layout_style}
+    
+    <panels>
+    {panels_data}
+    </panels>
+    
+    Create:
+    - Optimal panel arrangement for the page
+    - Speech bubble positions and styling
+    - Caption box positions
+    - Sound effect placements
+    - Proper gutters and margins
+    
+    Ensure:
+    - Visual flow guides the reader naturally
+    - Text is readable and well-positioned
+    - Panel sizes emphasize important moments
+    - Page composition is balanced
+    - Layout matches the {layout_style} style
+  expected_output: >
+    A PageLayout object with panel positions, text element positions,
+    layout template used, and URL to the rendered page.
+  agent: comic_layout

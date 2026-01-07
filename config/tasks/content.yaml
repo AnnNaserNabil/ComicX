@@ -1,0 +1,80 @@
+translation:
+  description: >
+    Translate and adapt the content for the target audience.
+    
+    Source Language: {source_language}
+    Target Language: {target_language}
+    Target Audience: {target_audience}
+    Content Type: {content_type}
+    
+    <content>
+    {content}
+    </content>
+    
+    Tasks:
+    - Translate content to {target_language}
+    - Adapt cultural references and idioms
+    - Preserve character names unless culturally inappropriate
+    - Maintain narrative tone and style
+    - Optimize for comic book format
+    
+    Ensure the translation preserves the story's essence while making it accessible
+    to the target audience.
+  expected_output: >
+    A TranslatedContent object with translated text, list of adaptations made,
+    preserved terms, and translation notes.
+  agent: translator
+
+story_structuring:
+  description: >
+    Structure the content into a compelling comic book story.
+    
+    <content>
+    {translated_content}
+    </content>
+    
+    Target Audience: {target_audience}
+    Estimated Pages: {target_pages}
+    
+    Create:
+    - Story title and genre
+    - Comprehensive story summary
+    - Character profiles with visual descriptions
+    - Story arcs and plot points
+    - Thematic elements
+    - Narrative style definition
+    - Pacing recommendations
+    
+    Ensure the story structure is optimized for visual storytelling and the target page count.
+  expected_output: >
+    A StoryStructure object with title, genre, summary, themes, detailed character profiles,
+    story arcs, narrative style, and target audience information.
+  agent: story_writer
+
+scriptwriting:
+  description: >
+    Convert the story structure into a detailed comic book script.
+    
+    Story: {story_structure}
+    Target Pages: {target_pages}
+    Art Style: {art_style}
+    
+    Break down the story into:
+    - Individual panels with detailed visual descriptions
+    - Dialogue for each character
+    - Narrative captions
+    - Sound effects
+    - Camera angles and shot types
+    - Panel mood and atmosphere
+    - Key visual elements for each panel
+    
+    Ensure:
+    - Proper pacing (3-6 panels per page typically)
+    - Visual storytelling flow
+    - Clear scene transitions
+    - Engaging panel compositions
+    - Total panels match target page count
+  expected_output: >
+    A ComicScript object with complete panel-by-panel breakdown including descriptions,
+    dialogue, captions, sound effects, camera angles, and style guide.
+  agent: script_writer
