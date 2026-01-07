@@ -88,9 +88,13 @@ required_dirs = [
     "src/tools",
     "src/crews",
     "src/api",
+    "src/ui",
     "config/agents",
     "config/tasks",
+    "docs",
+    "tests",
     "outputs",
+    "logs",
 ]
 all_exist = True
 for dir_path in required_dirs:

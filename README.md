@@ -1,6 +1,6 @@
 # 🎨 Comic Book Generator
 
-An AI-powered comic book generation system using CrewAI framework, OpenAI GPT-4, and DALL-E 3. Transform stories from PDFs or text into fully illustrated comic books with professional layouts.
+An AI-powered comic book generation system using CrewAI framework, Google Gemini, OpenRouter, and ModelsLab. Transform stories from PDFs or text into fully illustrated comic books and animated video sequences.
 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue)
 ![Python](https://img.shields.io/badge/python-3.10+-green)
@@ -9,10 +9,11 @@ An AI-powered comic book generation system using CrewAI framework, OpenAI GPT-4,
 ## ✨ Features
 
 - **Multi-Source Input**: Process PDFs, text files, or raw stories
-- **AI-Powered Generation**: Uses GPT-4 for storytelling and DALL-E 3 for artwork
-- **Multi-Agent Architecture**: 11 specialized AI agents working in coordination
+- **AI-Powered Generation**: Uses Google Gemini (via OpenRouter) for storytelling and ModelsLab for artwork
+- **Multi-Agent Architecture**: 13 specialized AI agents working in coordination
 - **Style Consistency**: Ensures visual coherence across all panels
-- **Multiple Output Formats**: PDF, CBZ (Comic Book Archive), and Web viewer
+- **Video Generation**: Create animated video sequences from comic panels
+- **Multiple Output Formats**: PDF, CBZ, Web viewer, and MP4 Video
 - **REST API**: Full-featured API with WebSocket support for progress updates
 - **Docker Support**: Production-ready containerization
 - **Extensible**: Plugin architecture for custom agents and tools
@@ -31,21 +32,24 @@ The system uses a 4-layer multi-agent architecture:
 - **Script Writer**: Breaks stories into comic panels
 
 ### Layer 3: Visual Generation
-- **Visual Artist**: Generates panel artwork using DALL-E 3
+- **Visual Artist**: Generates panel artwork using ModelsLab (Flux/SDXL)
 - **Style Consistency**: Maintains visual coherence
 - **Comic Layout**: Arranges panels and adds text elements
 
-### Layer 4: Synthesis & Output
+### Layer 4: Animation & Synthesis
+- **Video Generator**: Creates animated sequences from panels
+- **Video Editor**: Edits and sequences video clips
 - **Synthesizer**: Combines all elements
 - **Quality Assurance**: Reviews final output
-- **Export Agent**: Generates multiple formats
+- **Export Agent**: Generates multiple formats (PDF, Web, Video)
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 
 - Docker and Docker Compose
-- OpenAI API key
+- Google Gemini API Key or OpenRouter API Key
+- ModelsLab API Key (for Image/Video generation)
 - (Optional) AgentOps API key for monitoring
 
 ### Installation
@@ -130,12 +134,13 @@ print(f"Comic generated: {result.title}")
 
 ## 🎨 Art Styles
 
-Supported art styles:
-- `cartoon` - Vibrant, animated style
-- `manga` - Japanese comic style
-- `realistic` - Photorealistic artwork
+Supported art styles (via ModelsLab):
+- `flux` - High-quality, versatile model (recommended)
+- `stable-diffusion` - Fast, reliable generation
+- `sdxl` - Extra large, detailed outputs
+- `cinematic` - Movie-like quality
+- `anime` - Japanese animation style
 - `watercolor` - Soft, painted style
-- `sketch` - Hand-drawn pencil style
 - `comic` - Traditional Western comic style
 
 ## 📦 Output Formats
@@ -149,6 +154,9 @@ Standard comic book format compatible with comic readers.
 ### Web
 HTML viewer with optimized images for web browsing.
 
+### Video
+MP4 video sequences with animated panels and transitions.
+
 ## 🔧 Configuration
 
 ### Environment Variables
@@ -156,19 +164,23 @@ HTML viewer with optimized images for web browsing.
 Key configuration options in `.env`:
 
 ```env
-# OpenAI Configuration
-OPENAI_API_KEY=your_key_here
-OPENAI_MODEL=gpt-4o
-DALLE_MODEL=dall-e-3
+# Google Gemini Configuration (Primary)
+GOOGLE_API_KEY=your_key_here
+GEMINI_MODEL=gemini-2.0-flash-exp
+
+# OpenRouter Configuration (Optional)
+OPENROUTER_API_KEY=your_key_here
+OPENROUTER_MODEL=google/gemini-2.0-flash-exp:free
+
+# ModelsLab Configuration
+MODELSLAB_API_KEY=your_key_here
+IMAGE_MODEL=flux
+VIDEO_MODEL=cogvideox
 
 # Application Settings
-DEFAULT_ART_STYLE=cartoon
+DEFAULT_ART_STYLE=flux
 DEFAULT_TARGET_PAGES=20
 MAX_PARALLEL_PANELS=5
-
-# Performance
-CACHE_ENABLED=true
-CACHE_TTL=3600
 ```
 
 ### Agent Configuration
@@ -294,12 +306,15 @@ comic-book-generator/
 │   ├── models/          # Data models and config
 │   ├── tools/           # Custom tools
 │   ├── api/             # FastAPI application
+│   ├── ui/              # Streamlit web application
 │   ├── utils/           # Utilities
 │   └── main.py          # Main orchestrator
 ├── config/
 │   ├── agents/          # Agent configurations
 │   └── tasks/           # Task configurations
+├── docs/                # Documentation
 ├── tests/               # Test suite
+├── logs/                # Application logs
 ├── docker/              # Docker configurations
 ├── outputs/             # Generated comics
 ├── Dockerfile
@@ -321,11 +336,12 @@ comic-book-generator/
 ## ⚠️ Important Notes
 
 ### API Costs
-This system uses OpenAI APIs which incur costs:
-- GPT-4: ~$0.03-0.06 per 1K tokens
-- DALL-E 3: ~$0.04-0.08 per image
+This system uses external APIs which incur costs:
+- **Gemini 2.0 Flash**: Free (within limits) or low cost
+- **OpenRouter**: Varies by model (many free options available)
+- **ModelsLab**: Varies by model and resolution
 
-A typical 20-page comic may cost $5-15 depending on complexity.
+A typical 20-page comic may cost $1-5 depending on complexity and model choices.
 
 ### Storage Requirements
 Generated comics can be 50-200MB each. Ensure adequate disk space.
@@ -352,7 +368,9 @@ MIT License - see LICENSE file for details
 ## 🙏 Acknowledgments
 
 - [CrewAI](https://github.com/joaomdmoura/crewAI) - Multi-agent framework
-- [OpenAI](https://openai.com/) - GPT-4 and DALL-E 3
+- [Google Gemini](https://ai.google.dev/) - Primary LLM
+- [OpenRouter](https://openrouter.ai/) - LLM Aggregator
+- [ModelsLab](https://modelslab.com/) - Image and Video generation
 - [FastAPI](https://fastapi.tiangolo.com/) - Web framework
 - [Pydantic](https://pydantic.dev/) - Data validation
 
@@ -360,7 +378,7 @@ MIT License - see LICENSE file for details
 
 For issues and questions:
 - GitHub Issues: [Create an issue]
-- Documentation: [Read the docs]
+- Documentation: [docs/](docs/)
 
 ---
 

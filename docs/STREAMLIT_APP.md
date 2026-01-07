@@ -59,7 +59,7 @@ MODELSLAB_API_KEY=your_modelslab_key
 ### 3. Run the App
 
 ```bash
-streamlit run streamlit_app.py
+streamlit run src/ui/streamlit_app.py
 ```
 
 The app will open in your browser at `http://localhost:8501`
@@ -350,7 +350,7 @@ Run both Streamlit and FastAPI:
 uvicorn src.api.main:app --port 8000
 
 # Terminal 2: Streamlit
-streamlit run streamlit_app.py
+streamlit run src/ui/streamlit_app.py
 ```
 
 ### Database Integration
@@ -393,7 +393,7 @@ The app is responsive and works on mobile devices:
 
 ```bash
 # Create Procfile
-echo "web: streamlit run streamlit_app.py --server.port=$PORT" > Procfile
+echo "web: streamlit run src/ui/streamlit_app.py --server.port=$PORT" > Procfile
 
 # Deploy
 heroku create your-app-name
@@ -413,7 +413,7 @@ COPY . .
 
 EXPOSE 8501
 
-CMD ["streamlit", "run", "streamlit_app.py", "--server.port=8501", "--server.address=0.0.0.0"]
+CMD ["streamlit", "run", "src/ui/streamlit_app.py", "--server.port=8501", "--server.address=0.0.0.0"]
 ```
 
 ---

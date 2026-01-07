@@ -154,7 +154,7 @@ except Exception as e:
 # Test 9: Streamlit App Structure
 print("\n[Test 9] Testing Streamlit App Structure...")
 try:
-    with open('streamlit_app.py', 'r') as f:
+    with open('src/ui/streamlit_app.py', 'r') as f:
         app_content = f.read()
     
     # Check for key components
@@ -198,7 +198,7 @@ try:
                 print("  ✓ ModelsLab API key configured")
     
     # Check Streamlit config
-    streamlit_config = Path('.streamlit/config.toml')
+    streamlit_config = Path('src/ui/.streamlit/config.toml')
     if streamlit_config.exists():
         print("  ✓ Streamlit config exists")
     
@@ -229,7 +229,7 @@ try:
         'config',
         'config/agents',
         'config/tasks',
-        '.streamlit',
+        'src/ui/.streamlit',
         'outputs',
         'tests'
     ]
@@ -250,10 +250,10 @@ print("\n[Test 12] Testing Documentation...")
 try:
     docs = [
         ('README.md', 'Main README'),
-        ('STREAMLIT_APP.md', 'Streamlit documentation'),
-        ('GEMINI_FIRST.md', 'Gemini guide'),
-        ('GEMINI_INTEGRATION.md', 'Gemini integration'),
-        ('MODELSLAB_INTEGRATION.md', 'ModelsLab integration'),
+        ('docs/STREAMLIT_APP.md', 'Streamlit documentation'),
+        ('docs/GEMINI_FIRST.md', 'Gemini guide'),
+        ('docs/GEMINI_INTEGRATION.md', 'Gemini integration'),
+        ('docs/MODELSLAB_INTEGRATION.md', 'ModelsLab integration'),
     ]
     
     for doc, desc in docs:
@@ -295,11 +295,11 @@ print("""
 ⚠️  API Testing:
    - Requires valid API keys
    - Run Streamlit app to test full functionality
-   - Use: streamlit run streamlit_app.py
+   - Use: streamlit run src/ui/streamlit_app.py
 
 📝 Next Steps:
    1. Add API keys to .env file
-   2. Run: streamlit run streamlit_app.py
+   2. Run: streamlit run src/ui/streamlit_app.py
    3. Test in browser at http://localhost:8501
    4. Try all three input methods
    5. Generate a test comic
