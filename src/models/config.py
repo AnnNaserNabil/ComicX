@@ -22,7 +22,7 @@ class Settings(BaseSettings):
     
     # OpenRouter Configuration
     openrouter_api_key: Optional[str] = Field(None, description="OpenRouter API key")
-    openrouter_model: str = Field(default="xiaomi/mimo-v2-flash:free", description="OpenRouter model")
+    openrouter_model: str = Field(default="openrouter/xiaomi/mimo-v2-flash:free", description="OpenRouter model")
     openrouter_base_url: str = Field(default="https://openrouter.ai/api/v1", description="OpenRouter API base URL")
     
     # LLM Settings
