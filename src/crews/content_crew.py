@@ -63,7 +63,7 @@ class ContentCrew:
         return Task(
             config=self.tasks_config["translation"],
             agent=self.translator(),
-            output_pydantic=TranslatedContent,
+            output_json=TranslatedContent,
         )
 
     @task
@@ -71,7 +71,8 @@ class ContentCrew:
         return Task(
             config=self.tasks_config["story_structuring"],
             agent=self.story_writer(),
-            output_pydantic=StoryStructure,
+            context=[self.translation()],
+            output_json=StoryStructure,
         )
 
     @task
@@ -79,7 +80,8 @@ class ContentCrew:
         return Task(
             config=self.tasks_config["scriptwriting"],
             agent=self.script_writer(),
-            output_pydantic=ComicScript,
+            context=[self.story_structuring()],
+            output_json=ComicScript,
         )
 
     @crew
@@ -89,4 +91,5 @@ class ContentCrew:
             tasks=self.tasks,
             process=Process.sequential,
             verbose=True,
+            tracing=True,
         )

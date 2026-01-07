@@ -70,8 +70,12 @@ class LLMFactory:
             logger.warning("OpenRouter API key not configured, falling back to Gemini")
             return LLMFactory._create_gemini_llm(temperature, max_tokens, **kwargs)
         
+        model = settings.openrouter_model
+        if not model.startswith("openrouter/"):
+            model = f"openrouter/{model}"
+            
         return ChatOpenAI(
-            model=settings.openrouter_model,
+            model=model,
             api_key=settings.openrouter_api_key,
             base_url=settings.openrouter_base_url,
             temperature=temperature or settings.gemini_temperature,

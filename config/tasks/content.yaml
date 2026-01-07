@@ -30,7 +30,7 @@ story_structuring:
     Structure the content into a compelling comic book story.
     
     <content>
-    {translated_content}
+    The translated content provided in the context.
     </content>
     
     Target Audience: {target_audience}
@@ -55,7 +55,7 @@ scriptwriting:
   description: >
     Convert the story structure into a detailed comic book script.
     
-    Story: {story_structure}
+    Story: The story structure provided in the context.
     Target Pages: {target_pages}
     Art Style: {art_style}
     
